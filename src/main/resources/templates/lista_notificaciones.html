@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notificaciones</title>
+    <style>
+        .leido { color: gray; text-decoration: line-through; }
+        .urgente { color: red; font-weight: bold; }
+        .alerta { color: orange; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+<h1>Notificaciones de <span th:text="${usuario}"></span></h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Mensaje</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody id="tabla-body">
+    </tbody>
+</table>
+
+<script th:inline="javascript">
+    const usuario = /*[[${usuario}]]*/ 'default';
+
+    // Conexión SSE
+    const eventSource = new EventSource(`/sse/notificaciones/${usuario}`);
+
+    eventSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        agregarFila(data);
+    };
+
+    eventSource.onerror = function(err) {
+        console.error("EventSource failed:", err);
+        // eventSource.close(); // Opcional: cerrar si hay error fatal
+    };
+
+    function agregarFila(notificacion) {
+        const tbody = document.getElementById("tabla-body");
+        const row = document.createElement("tr");
+
+        // Estilo según tipo
+        const claseTipo = notificacion.tipo.toLowerCase();
+        const estiloLeido = notificacion.leido ? 'leido' : '';
+
+        row.id = `row-${notificacion.id}`;
+        row.innerHTML = `
+                <td class="${estiloLeido}">${notificacion.mensaje}</td>
+                <td class="${claseTipo}">${notificacion.tipo}</td>
+                <td>${notificacion.fecha}</td>
+                <td>
+                    <button onclick="marcarLeido('${notificacion.id}')">Leer</button>
+                    <button onclick="eliminar('${notificacion.id}')">Eliminar</button>
+                </td>
+            `;
+        // Añadir al principio de la tabla
+        tbody.insertBefore(row, tbody.firstChild);
+    }
+
+    function marcarLeido(id) {
+        fetch(`/api/notificaciones/${id}/leer`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                // Actualizar visualmente sin recargar
+                const row = document.getElementById(`row-${id}`);
+                if(row) row.cells[0].classList.add('leido');
+            });
+    }
+
+    function eliminar(id) {
+        fetch(`/api/notificaciones/${id}`, { method: 'DELETE' })
+            .then(() => {
+                const row = document.getElementById(`row-${id}`);
+                if(row) row.remove();
+            });
+    }
+</script>
+</body>
+</html>
