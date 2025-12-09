@@ -42,7 +42,7 @@ public class NotificacionController {
     }
 
     // Marcar como leído
-    @PostMapping("/api/notificaciones/{id}/leer")
+    @PatchMapping("/api/notificaciones/{id}/leer")
     @ResponseBody
     public Mono<Notificacion> marcarLeer(@PathVariable String id) {
         return service.marcarLeido(id);
