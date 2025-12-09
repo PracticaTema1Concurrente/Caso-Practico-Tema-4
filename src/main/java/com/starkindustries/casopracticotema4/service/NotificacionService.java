@@ -13,13 +13,10 @@ public class NotificacionService {
 
     @Autowired
     private NotificacionRepository repository;
-
-    // Sink para emitir eventos en tiempo real (multicast = a muchos observadores)
     private final Sinks.Many<Notificacion> sink = Sinks.many().multicast().onBackpressureBuffer();
 
     // 1. Obtener flujo: Histórico + Nuevos eventos (SSE)
     public Flux<Notificacion> getNotificacionesEnTiempoReal(String usuario) {
-        // Combinamos las guardadas en DB con las que van llegando en vivo
         return repository.findByUsuario(usuario)
                 .concatWith(sink.asFlux().filter(n -> n.getUsuario().equals(usuario)));
     }
@@ -42,7 +39,7 @@ public class NotificacionService {
                 });
     }
 
-    // 4. Filtrar (Consulta estática)
+    // 4. Filtrar
     public Flux<Notificacion> filtrarPorTipo(String usuario, String tipo) {
         return repository.findByUsuarioAndTipo(usuario, tipo);
     }
