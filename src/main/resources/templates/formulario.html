@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Notificación</title>
+    <link rel="stylesheet" th:href="@{/css/css.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 Redactar Notificación</h1>
+
+    <div class="card" style="display: block;">
+        <form id="form-notificacion">
+            <div class="form-group">
+                <label>Para el usuario:</label>
+                <input type="text" id="usuario" th:value="${usuario}" readonly class="input-field">
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de aviso:</label>
+                <select id="tipo" class="input-field">
+                    <option value="INFO">ℹ️ Información</option>
+                    <option value="ALERTA">⚠️ Alerta</option>
+                    <option value="URGENTE">🔥 Urgente</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Mensaje:</label>
+                <textarea id="mensaje" rows="4" placeholder="Escribe aquí lo que ha pasado..." class="input-field" required></textarea>
+            </div>
+
+            <div class="actions" style="justify-content: flex-end; margin-top: 20px;">
+                <a th:href="@{/notificaciones/{u}(u=${usuario})}" class="btn-delete">Cancelar</a>
+                <button type="submit" class="btn-read">Enviar Correo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('form-notificacion').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evita que el formulario recargue la página a la antigua
+
+        // 1. Capturamos los datos
+        const usuario = document.getElementById('usuario').value;
+        const mensaje = document.getElementById('mensaje').value;
+        const tipo = document.getElementById('tipo').value;
+
+        // 2. Construimos el JSON exacto que me pediste
+        const payload = {
+            usuario: usuario,
+            mensaje: mensaje,
+            tipo: tipo
+        };
+
+        try {
+            // 3. Enviamos al servidor (Igual que hacía Postman)
+            const response = await fetch('/api/notificaciones', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                // 4. Si todo va bien, volvemos a la lista
+                window.location.href = `/notificaciones/${usuario}`;
+            } else {
+                alert("Hubo un error al enviar");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión");
+        }
+    });
+</script>
+
+</body>
+</html>

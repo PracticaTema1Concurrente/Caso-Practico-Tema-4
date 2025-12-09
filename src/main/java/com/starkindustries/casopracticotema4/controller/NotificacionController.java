@@ -54,4 +54,10 @@ public class NotificacionController {
     public Mono<Void> eliminar(@PathVariable String id) {
         return service.eliminarNotificacion(id);
     }
+
+    @GetMapping("/notificaciones/{usuario}/nuevo")
+    public String mostrarFormulario(@PathVariable String usuario, Model model) {
+        model.addAttribute("usuario", usuario);
+        return "formulario"; // Esto buscará templates/formulario.html
+    }
 }

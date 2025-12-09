@@ -1,0 +1,178 @@
+:root {
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-main: #333;
+    --text-muted: #777;
+    --primary: #5c6bc0;
+    --danger: #ef5350;
+    --warning: #ffa726;
+    --info: #29b6f6;
+    --success: #66bb6a;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    color: var(--text-main);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* --- Grid de Notificaciones --- */
+#notificaciones-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- Diseño de la Tarjeta --- */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 5px solid var(--info); /* Por defecto INFO */
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+/* Animación de entrada (Slide In) */
+.slide-in {
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Tipos de Notificación --- */
+.type-urgente { border-left-color: var(--danger); }
+.type-alerta { border-left-color: var(--warning); }
+.type-info { border-left-color: var(--info); }
+
+/* Etiqueta del tipo */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+.bg-urgente { background-color: var(--danger); }
+.bg-alerta { background-color: var(--warning); }
+.bg-info { background-color: var(--info); }
+
+/* --- Contenido --- */
+.card-content {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.card-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.card-msg {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* --- Estado Leído --- */
+.card.leido {
+    opacity: 0.6;
+    background-color: #e0e0e0;
+    border-left-color: #999;
+}
+.card.leido .card-msg {
+    text-decoration: line-through;
+}
+
+/* --- Botones --- */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-read { background-color: var(--success); color: white; }
+.btn-read:hover { background-color: #43a047; }
+
+.btn-delete { background-color: #eee; color: #333; }
+.btn-delete:hover { background-color: #ddd; }
+
+/* --- Estilos del Formulario --- */
+.btn-nuevo {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    display: inline-block;
+}
+.btn-nuevo:hover {
+    transform: scale(1.05);
+    background-color: #3f51b5;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box; /* Para que el padding no rompa el ancho */
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    border-color: var(--primary);
+    outline: none;
+}
