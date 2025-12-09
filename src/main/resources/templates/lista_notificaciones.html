@@ -8,7 +8,32 @@
 <body>
 
 <div class="container">
+
     <h1>📨 Buzón de <span th:text="${usuario}">Usuario</span></h1>
+
+    <!-- 🔎 BARRA DE BÚSQUEDA -->
+    <form id="buscar-form" style="text-align: center; margin-bottom: 20px;">
+        <input type="text"
+               id="buscar-usuario"
+               placeholder="Buscar usuario..."
+               style="padding: 10px; width: 250px; font-size: 14px; border-radius: 6px; border: 1px solid #ccc;">
+
+        <button type="submit"
+                style="padding: 10px 15px; margin-left: 8px; border: none; background: #3498db; color: white; border-radius: 6px; cursor: pointer;">
+            <i class="fas fa-search"></i> Buscar
+        </button>
+    </form>
+
+    <script>
+        document.getElementById("buscar-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const user = document.getElementById("buscar-usuario").value.trim();
+            if (user.length > 0) {
+                window.location.href = "/notificaciones/" + user;
+            }
+        });
+    </script>
+    <!-- FIN BARRA DE BÚSQUEDA -->
 
     <div style="text-align: center; margin-bottom: 20px;">
         <a th:href="@{/notificaciones/{u}/nuevo(u=${usuario})}" class="btn-nuevo">
@@ -16,12 +41,10 @@
         </a>
     </div>
 
-    <div id="notificaciones-container">
-    </div>
+    <div id="notificaciones-container"></div>
 </div>
 
 <script th:inline="javascript">
-    /* Pasamos la variable de Java a JS */
     const USUARIO_ACTUAL = /*[[${usuario}]]*/ 'invitado';
 </script>
 
