@@ -55,6 +55,7 @@ public class NotificacionController {
         return service.eliminarNotificacion(id);
     }
 
+    // Mostrar Formulario
     @GetMapping("/notificaciones/{usuario}/nuevo")
     public String mostrarFormulario(@PathVariable String usuario, Model model) {
         model.addAttribute("usuario", usuario);
