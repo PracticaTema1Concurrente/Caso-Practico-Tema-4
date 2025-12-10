@@ -47,7 +47,7 @@ function renderizarTarjeta(n) {
 
 // Funciones para los botones
 const marcarLeido = async (id) => {
-    await fetch(`/api/notificaciones/${id}/leer`, { method: 'POST' });
+    await fetch(`/api/notificaciones/${id}/leer`, { method: 'PATCH' });
     const card = document.getElementById(`card-${id}`);
     if (card) {
         card.classList.add('leido');
