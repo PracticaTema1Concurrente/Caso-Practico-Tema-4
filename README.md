@@ -3,6 +3,13 @@ Ivan Hidalgo
 
 # Caso Práctico Tema 4: Sistema Reactivo de Notificaciones en Tiempo Real
 
+## Explicación breve del ejercicio:
+Este proyecto implementa un sistema de notificaciones en tiempo real utilizando Spring WebFlux, SSE (Server-Sent Events) y MongoDB reactivo.
+
+El objetivo es permitir que cada usuario pueda visualizar sus notificaciones de forma continua, sin necesidad de recargar la página, además de ofrecer funcionalidades de CRUD y filtrado.
+
+La aplicación incluye también una pequeña interfaz web creada con Thymeleaf, donde se muestran las notificaciones reaccionando en vivo a los eventos enviados por el servidor.
+
 ## INSTRUCCIONES DE ENTREGA:
 
 - El ejercicio debe ser realizado en grupos de 2 y 3 estudiantes. Todos los miembros del grupo deben hacer la entrega con los mismos archivos.
